@@ -16,6 +16,7 @@ diary('ek_base_output.out');
 % - This file provides baseline results for counterfactuals
 
 tic
+
 %% Arrange data
 
 clear all
@@ -74,16 +75,16 @@ while (tol>mytolw && i<myiter)
 %    p0 = ones(n,1);
  
     % Given wages, solve for prices using Newton's method
-    optset('newton','tol',1e-13);
-    optset('newton','showiters',1);
-    optset('newton','maxit',200);    
+    %optset('newton','tol',1e-13);
+    %optset('newton','showiters',1);
+    %optset('newton','maxit',200);    
     
-    [pval,fval] = newton(@(p) prices(p,w),p0);
+    %[pval,fval] = newton(@(p) prices(p,w),p0);
     
-%    % Alternative: fsolve
-%    options=optimset('Display','iter','Jacobian','on','TolFun',1e-6);
-%    [pval,fval,exitflag,jacobian,output] = ...
-%    fsolve(@(p) prices(p,w),p0,options);
+    %Alternative: fsolve;
+    options=optimset('Display','iter','Jacobian','on','TolFun',1e-6);
+    [pval,fval,exitflag,jacobian,output] = ...
+    fsolve(@(p) prices(p,w),p0,options);
     
    % Alternative: Broyden
 %    optset('broyden','tol',1e-6);
@@ -192,8 +193,6 @@ figure(gcf)
 
 save baseline basew basep basetrade welfare
 
-************************************************************************
-************************************************************************
 %%  KNITRO as alternative algorithm:
 %   Use KNITRO package to solve as a constrained optimization problem.
 %   Constant objective function and constraints are just the equations
